@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SPUC RFID</title>
+    <link rel="stylesheet" href="../Styles/Settings.css">
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-section">
+            <img src="../Assets/LOGO.png" alt="SPUC Logo">
+            <div class="logo-text">SWPUC | PHILIPPINES</div>
+        </div>
+        <div class="menu">
+            <div class="menu-item" onclick="window.location.href='Dashboard.html'">
+                <img src="../Assets/dashboard.png" alt="Dashboard" class="menu-icon">
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='Edit.html'">
+                <img src="../Assets/edit.png" alt="Add/Delete" class="menu-icon">
+                <span>Add/Delete Vehicle</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='History.html'">
+                <img src="../Assets/history.png" alt="History" class="menu-icon">
+                <span>History</span>
+            </div>
+            <div class="menu-item active">
+                <img src="../Assets/settings.png" alt="Settings" class="menu-icon">
+                <span>Settings</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="page-header-left">
+                <h1>Account Settings</h1>
+                <p>Manage your credentials and system preferences</p>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="settings-layout">
+
+            <!-- Left Column -->
+            <div class="left-col">
+
+                <div class="settings-card">
+                    <div class="card-header">
+                        <div class="card-header-icon">👤</div>
+                        <h2>Change Username</h2>
+                    </div>
+                    <form id="usernameForm" class="card-form">
+                        <div class="form-group">
+                            <label>Current Username</label>
+                            <input type="text" id="currentUsername" value="admin" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>New Username</label>
+                            <input type="text" id="newUsername" placeholder="Enter new username" required>
+                        </div>
+                        <button type="submit" class="btn-save">Update Username</button>
+                    </form>
+                </div>
+
+                <div class="settings-card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🔒</div>
+                        <h2>Change Password</h2>
+                    </div>
+                    <form id="passwordForm" class="card-form">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="newPassword" placeholder="Enter new password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                        </div>
+                        <button type="submit" class="btn-save">Update Password</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-col">
+
+                <div class="settings-card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🖥️</div>
+                        <h2>System Information</h2>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">System Version</span>
+                            <span class="info-value">1.0.0</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Login</span>
+                            <span class="info-value">Today, 10:30 AM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Total Users</span>
+                            <span class="info-value">1</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Database Status</span>
+                            <span class="info-value status-active">● Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card appearance-card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🎨</div>
+                        <h2>Appearance</h2>
+                    </div>
+                    <div class="appearance-body">
+                        <p class="appearance-desc">Switch between light and dark mode across all pages.</p>
+                        <div class="theme-option-row" onclick="toggleTheme()">
+                            <div class="theme-option-info">
+                                <span class="theme-option-icon" id="themeOptionIcon">☀️</span>
+                                <div>
+                                    <div class="theme-option-title" id="themeOptionTitle">Light Mode</div>
+                                    <div class="theme-option-sub">Currently active</div>
+                                </div>
+                            </div>
+                            <div class="toggle-track">
+                                <div class="toggle-thumb"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card logout-card">
+                    <div class="card-header danger-header">
+                        <div class="card-header-icon">🚪</div>
+                        <h2>Session</h2>
+                    </div>
+                    <div class="logout-body">
+                        <p>You are currently logged in as <strong id="sessionUser">admin</strong>.</p>
+                        <button id="logoutBtn" class="btn-logout">🚪 Logout</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            updateThemeUI(next);
+        }
+
+        function updateThemeUI(theme) {
+            const optIcon  = document.getElementById('themeOptionIcon');
+            const optTitle = document.getElementById('themeOptionTitle');
+            if (theme === 'dark') {
+                optIcon.textContent  = '🌙';
+                optTitle.textContent = 'Dark Mode';
+            } else {
+                optIcon.textContent  = '☀️';
+                optTitle.textContent = 'Light Mode';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        updateThemeUI(savedTheme);
+
+        // Username form
+        document.getElementById('usernameForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newUsername = document.getElementById('newUsername').value.trim();
+            if (newUsername) {
+                document.getElementById('currentUsername').value = newUsername;
+                document.getElementById('sessionUser').textContent = newUsername;
+                document.getElementById('newUsername').value = '';
+                showToast('Username updated successfully!', 'success');
+            }
+        });
+
+        // Password form
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword     = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            if (currentPassword !== 'admin123') { showToast('Current password is incorrect', 'error'); return; }
+            if (newPassword !== confirmPassword) { showToast('New passwords do not match', 'error'); return; }
+            if (newPassword.length < 6)          { showToast('Password must be at least 6 characters', 'error'); return; }
+            showToast('Password updated successfully!', 'success');
+            document.getElementById('passwordForm').reset();
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = '../index.html';
+            }
+        });
+
+        // Toast notification
+        function showToast(message, type) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+    </script>
+</body>
+</html>

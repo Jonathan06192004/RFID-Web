@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add/Delete Vehicle - SPUC RFID</title>
+    <link rel="stylesheet" href="../Styles/Edit.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Script/supabaseClient.js"></script>
+    <script src="../Script/Edit.js" defer></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-section">
+            <img src="../Assets/LOGO.png" alt="SPUC Logo">
+            <div class="logo-text">SWPUC | PHILIPPINES</div>
+        </div>
+        <div class="menu">
+            <div class="menu-item" onclick="window.location.href='Dashboard.html'">
+                <img src="../Assets/dashboard.png" alt="Dashboard" class="menu-icon">
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item active" onclick="window.location.href='Edit.html'">
+                <img src="../Assets/edit.png" alt="Add/Delete" class="menu-icon">
+                <span>Add/Delete Vehicle</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='History.html'">
+                <img src="../Assets/history.png" alt="History" class="menu-icon">
+                <span>History</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='Settings.html'">
+                <img src="../Assets/settings.png" alt="Settings" class="menu-icon">
+                <span>Settings</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-content">
+
+        <!-- Add Vehicle Card -->
+        <div class="settings-card">
+            <div class="card-header">
+                <div class="card-header-icon">🚗</div>
+                <h2>Add New Vehicle</h2>
+            </div>
+            <form id="addVehicleForm" class="card-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Plate Number</label>
+                        <input type="text" id="plateNumber" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type of Vehicle</label>
+                        <input type="text" id="vehicleType" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>RFID Inside</label>
+                        <input type="text" id="rfidInside" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label>RFID Outside</label>
+                        <input type="text" id="rfidOutside" class="form-input" required>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn-save">Add Vehicle</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Existing Vehicles Card -->
+        <div class="settings-card">
+            <div class="card-header">
+                <div class="card-header-icon">📋</div>
+                <h2>Existing Accounts</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Plate Number</th>
+                        <th>Type of Vehicle</th>
+                        <th>RFID Inside</th>
+                        <th>RFID Outside</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="vehiclesTableBody">
+                    <tr><td colspan="6" style="text-align:center;padding:40px;color:#999;">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content edit-modal-content">
+            <div class="modal-header">
+                <div class="modal-header-icon">✏️</div>
+                <div>
+                    <h2>Edit Vehicle</h2>
+                    <p>Update the vehicle information below</p>
+                </div>
+                <span class="close" onclick="closeEditModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="editVehicleForm">
+                    <input type="hidden" id="editVehicleId">
+                    <div class="modal-form-grid">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="editFullName" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Plate Number</label>
+                            <input type="text" id="editPlateNumber" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Type of Vehicle</label>
+                            <input type="text" id="editVehicleType" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>RFID Inside</label>
+                            <input type="text" id="editRfidInside" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label>RFID Outside</label>
+                            <input type="text" id="editRfidOutside" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn-update">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content delete-modal-content">
+            <div class="delete-modal-icon">🗑️</div>
+            <h2>Delete Vehicle</h2>
+            <p>Are you sure you want to delete this vehicle?<br>This action <strong>cannot be undone.</strong></p>
+            <input type="hidden" id="deleteVehicleId">
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button type="button" class="btn-delete-confirm" id="deleteConfirmBtn" onclick="confirmDelete()">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content feedback-modal-content">
+            <div class="feedback-icon success-icon">✅</div>
+            <h2 id="successTitle">Vehicle Added!</h2>
+            <p id="successMessage">The vehicle has been successfully added.</p>
+            <button type="button" class="btn-update" onclick="closeSuccessModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content feedback-modal-content">
+            <div class="feedback-icon error-icon">⚠️</div>
+            <h2 id="errorTitle">Empty Fields</h2>
+            <p id="errorMessage">Please fill in all required fields before submitting.</p>
+            <button type="button" class="btn-delete-confirm" onclick="closeErrorModal()">Try Again</button>
+        </div>
+    </div>
+
+</body>
+</html>

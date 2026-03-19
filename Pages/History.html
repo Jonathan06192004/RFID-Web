@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - SPUC RFID</title>
+    <link rel="stylesheet" href="../Styles/History.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Script/supabaseClient.js"></script>
+    <script src="../Script/History.js" defer></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo-section">
+            <img src="../Assets/LOGO.png" alt="SPUC Logo">
+            <div class="logo-text">SWPUC | PHILIPPINES</div>
+        </div>
+        <div class="menu">
+            <div class="menu-item" onclick="window.location.href='Dashboard.html'">
+                <img src="../Assets/dashboard.png" class="menu-icon">
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='Edit.html'">
+                <img src="../Assets/edit.png" class="menu-icon">
+                <span>Add/Delete Vehicle</span>
+            </div>
+            <div class="menu-item active" onclick="window.location.href='History.html'">
+                <img src="../Assets/history.png" class="menu-icon">
+                <span>History</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='Settings.html'">
+                <img src="../Assets/settings.png" class="menu-icon">
+                <span>Settings</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-content">
+
+        <div class="settings-card">
+            <div class="card-header">
+                <div class="card-header-icon">📜</div>
+                <h2>Vehicle History Archive</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Plate Number</th>
+                        <th>Type</th>
+                        <th>RFID #</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Duration Inside</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr><td colspan="8" style="text-align:center;padding:40px;color:#999;">Loading history...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>

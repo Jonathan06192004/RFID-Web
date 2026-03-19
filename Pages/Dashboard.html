@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPUC RFID Dashboard</title>
+    <link rel="stylesheet" href="../Styles/Dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Script/supabaseClient.js"></script>
+    <script src="../Script/dashboard.js" defer></script>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="bg-animate"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="sidebar">
+        <div class="logo-section">
+            <img src="../Assets/LOGO.png" alt="SPUC Logo">
+            <div class="logo-text">SWPUC | PHILIPPINES</div>
+        </div>
+        <div class="menu">
+            <div class="menu-item active" onclick="window.location.href='Dashboard.html'">
+                <img src="../Assets/dashboard.png" class="menu-icon">
+                <span>Dashboard</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='Edit.html'">
+                <img src="../Assets/edit.png" class="menu-icon">
+                <span>Add/Delete Vehicle</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='History.html'">
+                <img src="../Assets/history.png" class="menu-icon">
+                <span>History</span>
+            </div>
+            <div class="menu-item" onclick="window.location.href='Settings.html'">
+                <img src="../Assets/settings.png" class="menu-icon">
+                <span>Settings</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-content">
+
+        <!-- Stat Cards -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">👤</div>
+                    <h3>Current Inside</h3>
+                </div>
+                <div class="stat-body">
+                    <div class="number green" id="currentInside">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">👤</div>
+                    <h3>Total Exits Today</h3>
+                </div>
+                <div class="stat-body">
+                    <div class="number red" id="totalExits">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-header">
+                    <div class="stat-icon">👥</div>
+                    <h3>Total Entries Today</h3>
+                </div>
+                <div class="stat-body">
+                    <div class="number blue" id="totalEntries">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Entry Log -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Live Entry Log</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Plate Number</th>
+                        <th>Type Of Vehicle</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="liveEntryTableBody">
+                    <tr><td colspan="5" style="text-align:center;padding:40px;color:#999;">Loading...</td></tr>
+                </tbody>
+            </table>
+            <div class="section-footer">
+                <button class="btn-primary" onclick="loadDashboardData()">Refresh</button>
+            </div>
+        </div>
+
+        <!-- Entry & Exit History -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Entry &amp; Exit History</h2>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type of Vehicle</th>
+                        <th>RFID Number</th>
+                        <th>Entry Time</th>
+                        <th>Exit Time</th>
+                        <th>Duration Inside</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr><td colspan="6" style="text-align:center;padding:40px;color:#999;">Loading...</td></tr>
+                </tbody>
+            </table>
+            <div class="section-footer">
+                <button class="btn-primary" onclick="loadDashboardData()">Refresh List</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
