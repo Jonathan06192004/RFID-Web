@@ -363,6 +363,107 @@ body::after  { width: 500px; height: 500px; background: var(--orb2); bottom: -15
 }
 .btn-logout:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(239,68,68,0.4); }
 
+.input-wrap {
+    position: relative;
+}
+.input-wrap input {
+    padding-right: 38px;
+}
+.eye-toggle {
+    position: absolute;
+    right: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 15px;
+    opacity: 0.45;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+.eye-toggle:hover { opacity: 0.85; }
+
+/* ── LOGOUT MODAL ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+.modal-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 36px 32px 28px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    transform: translateY(16px) scale(0.97);
+    transition: transform 0.25s ease;
+}
+.modal-overlay.active .modal-box {
+    transform: translateY(0) scale(1);
+}
+.modal-icon {
+    font-size: 40px;
+    margin-bottom: 14px;
+}
+.modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--title-color);
+    margin-bottom: 8px;
+}
+.modal-desc {
+    font-size: 14px;
+    color: var(--label-color);
+    margin-bottom: 24px;
+}
+.modal-actions {
+    display: flex;
+    gap: 12px;
+}
+.modal-btn {
+    flex: 1;
+    padding: 11px;
+    border: none;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.modal-btn-cancel {
+    background: var(--info-item-bg);
+    color: var(--text-color);
+    border: 1px solid var(--card-border);
+}
+.modal-btn-cancel:hover {
+    border-color: #38697e;
+    color: var(--title-color);
+}
+.modal-btn-confirm {
+    background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239,68,68,0.3);
+}
+.modal-btn-confirm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(239,68,68,0.4);
+}
+
 /* ── TOAST ── */
 .toast {
     position: fixed;

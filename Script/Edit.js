@@ -3,7 +3,7 @@ async function loadVehicles() {
     const { data, error } = await supabaseClient
         .from("vehicles")
         .select("*")
-        .order("created_at", { ascending: false });
+        .order("full_name", { ascending: true });
 
     const tbody = document.getElementById("vehiclesTableBody");
 

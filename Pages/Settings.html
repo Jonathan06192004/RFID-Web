@@ -47,6 +47,7 @@
                 <h1>Account Settings</h1>
                 <p>Manage your credentials and system preferences</p>
             </div>
+            <button id="logoutBtn" class="btn-logout">Logout</button>
         </div>
 
         <!-- Main Grid -->
@@ -81,15 +82,24 @@
                     <form id="passwordForm" class="card-form">
                         <div class="form-group">
                             <label>Current Password</label>
-                            <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                            <div class="input-wrap">
+                                <input type="password" id="currentPassword" placeholder="Enter current password" required>
+                                <span class="eye-toggle" data-target="currentPassword">👁</span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>New Password</label>
-                            <input type="password" id="newPassword" placeholder="Enter new password" required>
+                            <div class="input-wrap">
+                                <input type="password" id="newPassword" placeholder="Enter new password" required>
+                                <span class="eye-toggle" data-target="newPassword">👁</span>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Confirm New Password</label>
-                            <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                            <div class="input-wrap">
+                                <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                                <span class="eye-toggle" data-target="confirmPassword">👁</span>
+                            </div>
                         </div>
                         <button type="submit" class="btn-save">Update Password</button>
                     </form>
@@ -112,15 +122,11 @@
                         </div>
                         <div class="info-item">
                             <span class="info-label">Last Login</span>
-                            <span class="info-value">Today, 10:30 AM</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Total Users</span>
-                            <span class="info-value">1</span>
+                            <span class="info-value" id="lastLoginDisplay">—</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Database Status</span>
-                            <span class="info-value status-active">● Active</span>
+                            <span class="info-value" id="dbStatusDisplay">● Checking...</span>
                         </div>
                     </div>
                 </div>
@@ -147,89 +153,25 @@
                     </div>
                 </div>
 
-                <div class="settings-card logout-card">
-                    <div class="card-header danger-header">
-                        <div class="card-header-icon">🚪</div>
-                        <h2>Session</h2>
-                    </div>
-                    <div class="logout-body">
-                        <p>You are currently logged in as <strong id="sessionUser">admin</strong>.</p>
-                        <button id="logoutBtn" class="btn-logout">🚪 Logout</button>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
 
-    <script>
-        // Theme toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            html.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            updateThemeUI(next);
-        }
+    <!-- Logout Modal -->
+    <div id="logoutModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon"></div>
+            <h3 class="modal-title">Confirm Logout</h3>
+            <p class="modal-desc">Are you sure you want to logout?</p>
+            <div class="modal-actions">
+                <button id="modalCancel" class="modal-btn modal-btn-cancel">No, Stay</button>
+                <button id="modalConfirm" class="modal-btn modal-btn-confirm">Yes, Logout</button>
+            </div>
+        </div>
+    </div>
 
-        function updateThemeUI(theme) {
-            const optIcon  = document.getElementById('themeOptionIcon');
-            const optTitle = document.getElementById('themeOptionTitle');
-            if (theme === 'dark') {
-                optIcon.textContent  = '🌙';
-                optTitle.textContent = 'Dark Mode';
-            } else {
-                optIcon.textContent  = '☀️';
-                optTitle.textContent = 'Light Mode';
-            }
-        }
-
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        updateThemeUI(savedTheme);
-
-        // Username form
-        document.getElementById('usernameForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const newUsername = document.getElementById('newUsername').value.trim();
-            if (newUsername) {
-                document.getElementById('currentUsername').value = newUsername;
-                document.getElementById('sessionUser').textContent = newUsername;
-                document.getElementById('newUsername').value = '';
-                showToast('Username updated successfully!', 'success');
-            }
-        });
-
-        // Password form
-        document.getElementById('passwordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword     = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            if (currentPassword !== 'admin123') { showToast('Current password is incorrect', 'error'); return; }
-            if (newPassword !== confirmPassword) { showToast('New passwords do not match', 'error'); return; }
-            if (newPassword.length < 6)          { showToast('Password must be at least 6 characters', 'error'); return; }
-            showToast('Password updated successfully!', 'success');
-            document.getElementById('passwordForm').reset();
-        });
-
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = '../index.html';
-            }
-        });
-
-        // Toast notification
-        function showToast(message, type) {
-            const existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../Script/supabaseClient.js"></script>
+    <script src="../Script/settings.js"></script>
 </body>
 </html>

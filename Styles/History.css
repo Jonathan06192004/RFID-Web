@@ -194,8 +194,10 @@ body::after  { width: 500px; height: 500px; background: var(--orb2); bottom: -15
     padding: 18px 24px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
 }
+.card-header-left { display: flex; align-items: center; gap: 10px; }
 .card-header h2 { font-size: 16px; font-weight: 700; color: white; margin: 0; }
 .card-header-icon {
     font-size: 18px;
@@ -203,6 +205,24 @@ body::after  { width: 500px; height: 500px; background: var(--orb2); bottom: -15
     width: 36px; height: 36px;
     border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
+}
+
+.btn-download {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.btn-download:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.45);
 }
 
 /* ── TABLE ── */

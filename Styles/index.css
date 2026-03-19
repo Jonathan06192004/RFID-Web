@@ -249,6 +249,25 @@ h2 {
     box-shadow: 0 0 0 3px rgba(56, 105, 126, 0.2), 0 0 16px rgba(56, 105, 126, 0.15);
 }
 
+.input-wrap {
+    position: relative;
+}
+.input-wrap input {
+    padding-right: 40px;
+}
+.eye-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 15px;
+    opacity: 0.4;
+    user-select: none;
+    transition: opacity 0.2s ease;
+}
+.eye-toggle:hover { opacity: 0.85; }
+
 .btn-login {
     width: 100%;
     background: linear-gradient(135deg, #38697e 0%, #1a3a52 100%);

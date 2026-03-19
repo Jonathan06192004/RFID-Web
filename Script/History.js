@@ -72,4 +72,21 @@ async function loadHistory() {
 /* ── INIT ── */
 window.onload = () => {
     loadHistory();
+    document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
 };
+
+/* ── DOWNLOAD CSV ── */
+function downloadCSV() {
+    const headers = ['Full Name','Plate Number','Type','RFID #','Entry Time','Exit Time','Duration Inside','Status'];
+    const rows = [...document.querySelectorAll('#historyTableBody tr')].map(tr =>
+        [...tr.querySelectorAll('td')].map(td => `"${td.innerText.replace(/"/g, '""')}"`)
+    ).filter(r => r.length > 1);
+
+    if (!rows.length) return;
+
+    const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    a.download = `history_${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+}
